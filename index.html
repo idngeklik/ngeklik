@@ -85,7 +85,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <span class="text-sm font-medium text-gray-600">Halo, <span id="display-name" class="font-bold text-gray-900">M. Fahrul Alam</span>!</span>
-                <button onclick="logout()" class="bg-red-100 text-red-600 px-3 py-1 rounded-md text-sm font-bold hover:bg-red-200">Logout</button>
+                <button onclick="handleLogout()" class="bg-red-100 text-red-600 px-3 py-1 rounded-md text-sm font-bold hover:bg-red-200">Logout</button>
             </div>
         </header>
 
@@ -302,10 +302,23 @@
         document.getElementById('welcome-name').innerText = name;
     }
 
-    // 6. Fungsi Logout
-    function logout() {
+   
+    // 6. Fungsi Logout (DIPERBAIKI)
+    function handleLogout() {
+        // Hapus data user dari penyimpanan browser
         localStorage.removeItem('ai_user_name');
-        location.reload(); // Refresh halaman
+        
+        // Ubah tampilan secara INSTAN ke halaman login (agar tidak nunggu reload)
+        document.getElementById('main-app').classList.add('hidden-view');
+        document.getElementById('auth-overlay').classList.remove('hidden-view');
+        
+        // Bersihkan inputan yang mungkin tertinggal
+        if(document.getElementById('login-username')) {
+            document.getElementById('login-username').value = "";
+        }
+        
+        // Paksa browser kembali ke URL asli (membersihkan cache path GitHub/Netlify)
+        window.location.replace(window.location.pathname);
     }
 
     // 7. Toggle Sidebar Mobile (Hamburger Menu)
